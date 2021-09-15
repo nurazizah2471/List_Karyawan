@@ -41,7 +41,7 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
 
         if(getIntent().hasExtra("dataEdit")) {
 
-                datakaryawan = getIntent().getParcelableExtra("dataEdit");
+                datakaryawan = getIntent().getParcelableArrayListExtra("dataEdit");
 
                 karyawanadapter.notifyDataSetChanged();
 
