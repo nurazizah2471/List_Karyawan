@@ -26,6 +26,7 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
     private FloatingActionButton buttonaddfloating;
     private TextView textitemnodata;
     private boolean cekclick = true;
+    public int indexposition;
 
 
     @Override
@@ -38,24 +39,44 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
 
         textitemnodata.setText("No Data");
 
+        if(getIntent().hasExtra("dataEdit")) {
+
+                objkaryawan = getIntent().getParcelableExtra("dataEdit");
+                indexposition = Integer.parseInt(getIntent().getStringExtra("positionobj"));
+
+                datakaryawan.get(indexposition).setFull_name(objkaryawan.getFull_name());
+                datakaryawan.get(indexposition).setAge(objkaryawan.getAge());
+                datakaryawan.get(indexposition).setAddres(objkaryawan.getAddres());
+
+                karyawanadapter.notifyDataSetChanged();
+
+        }
+
         setListener();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==1){
-            if(resultCode==200){
-                objkaryawan=data.getParcelableExtra("newdata");
+        if(requestCode==1) {
+            if (resultCode == 200) {
+                objkaryawan = data.getParcelableExtra("newdata");
                 datakaryawan.add(objkaryawan);
-                karyawanadapter.notifyDataSetChanged();
-                if(datakaryawan.size()==0){
-                    textitemnodata.setText("No Data");
-                }else{
-                    textitemnodata.setText("");
-                }
 
+            } else if (resultCode == 500) {
+               int indexposition = Integer.parseInt(data.getStringExtra("positionobj"));
+
+                datakaryawan.remove(indexposition);
+                Toast.makeText(getApplicationContext(), "Delete success!", Toast.LENGTH_SHORT).show();
             }
+        }
+
+        karyawanadapter.notifyDataSetChanged();
+
+        if (datakaryawan.size() == 0) {
+            textitemnodata.setText("No Data");
+        } else {
+            textitemnodata.setText("");
         }
     }
 
@@ -85,12 +106,16 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
     }
 
     @Override
-    public void onButtonDetailClick(View v, int position) {
+    public void onButtonDetailClick(int position) {
         Intent intent=new Intent(getApplicationContext(), detailActivity.class);
 
         intent.putExtra("karyawanobj", datakaryawan.get(position));
-        intent.putExtra("indexdetail", position);
+
+        intent.putExtra("objposition", String.valueOf(position));
+
 
        startActivity(intent);
+
     }
+
 }

@@ -33,7 +33,7 @@ public class karyawanRVAdapter extends RecyclerView.Adapter<karyawanRVAdapter.ka
     @Override
     public void onBindViewHolder(@NonNull karyawanRVAdapter.karyawanHolder holder, int position) {
         holder.cardView_full_name.setText(String.valueOf(arraylistkaryawan.get(position).getFull_name()));
-        holder.cardView_age.setText(String.valueOf(arraylistkaryawan.get(position).getAge()));
+        holder.cardView_age.setText(String.valueOf(arraylistkaryawan.get(position).getAge())+" years old" );
         holder.cardView_address.setText(String.valueOf(arraylistkaryawan.get(position).getAddres()));
 
 
@@ -56,12 +56,16 @@ public class karyawanRVAdapter extends RecyclerView.Adapter<karyawanRVAdapter.ka
             cardView_address=itemView.findViewById((R.id.cardView_address));
             itemView.setOnClickListener(this);
 
+
+
+
         }
 
         @Override
         public void onClick(View v) {
-            listener.onButtonDetailClick(v,getAdapterPosition());
+            listener.onButtonDetailClick(getAdapterPosition());
         }
+
     }
 
 

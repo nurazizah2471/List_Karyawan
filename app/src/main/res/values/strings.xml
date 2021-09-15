@@ -7,4 +7,6 @@
     <string name="ketfullname">Ful Name</string>
     <string name="ketage">Age</string>
     <string name="ketaddress">Address</string>
+    <string name="ketToolbarEditUser">Edit User</string>
+    <string name="ketuserdetails">User Details</string>
 </resources>

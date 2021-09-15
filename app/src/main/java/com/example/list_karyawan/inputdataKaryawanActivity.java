@@ -1,17 +1,21 @@
 package com.example.list_karyawan;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -20,12 +24,15 @@ import model.karyawan;
 public class inputdataKaryawanActivity extends AppCompatActivity {
 
     private TextInputLayout textinput_fullname, textinput_age, textinput_address;
+    private TextView inputData_title;
     private Button buttonsave;
-    private karyawan objkaryawan;
+    private karyawan objkaryawan, objkaryawannew;
     private boolean clickbutton;
     private ImageView imageback;
     private ProgressDialog progressdialog;
     private Intent intent;
+    private String objposition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +41,18 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
         inisialisasi();
         setListener();
 
-        if(getIntent().hasExtra("karyawan")){
-            objkaryawan=intent.getParcelableExtra("karyawan");
+        if(getIntent().hasExtra("karyawanobj")){
+            objkaryawan=getIntent().getParcelableExtra("karyawanobj");
+
+
             textinput_fullname.getEditText().setText(objkaryawan.getFull_name());
             textinput_age.getEditText().setText(objkaryawan.getAge());
             textinput_address.getEditText().setText(objkaryawan.getAddres());
+
+            buttonsave.setText("Update Data");
+            inputData_title.setText("Edit User");
+        } else{
+            inputData_title.setText("Add User");
         }
     }
 
@@ -57,52 +71,80 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        progressdialog.dismiss();
-    }
+//    @Override
+  //  public void onBackPressed() {
+    //    super.onBackPressed();
+      //  progressdialog.dismiss();
+    //}
 
     private void setListener() {
-        imageback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent();
-                setResult(100, intent);
-                finish();
-            }
-        });
+      //  imageback.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+          //  public void onClick(View v) {
+            //    Intent intent=new Intent();
+              //  setResult(100, intent);
+                //finish();
+            //}
+        //});
+
+
 
         buttonsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String fullname=textinput_fullname.getEditText().getText().toString().trim();
-                String age=textinput_age.getEditText().getText().toString().trim();
-                String address=textinput_address.getEditText().getText().toString().trim();
 
 
-                progressdialog=new ProgressDialog(inputdataKaryawanActivity.this);
+               progressdialog=new ProgressDialog(inputdataKaryawanActivity.this);
                 progressdialog.show();
                 progressdialog.setContentView(R.layout.dialogshow);
 
                 progressdialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(300);
+                        }catch (Exception e){
+                                e.printStackTrace();
+                        }
+                        progressdialog.dismiss();
+                    }
+                }).start();
+
+
 
 
                 if(!getIntent().hasExtra("karyawanobj")) {
+                    String fullname=textinput_fullname.getEditText().getText().toString().trim();
+                    String age=textinput_age.getEditText().getText().toString().trim();
+                    String address=textinput_address.getEditText().getText().toString().trim();
+
                     objkaryawan = new karyawan(fullname, age, address);
-                    intent=new Intent(getApplicationContext(), RecyclerView_Activity.class);
+
+                    intent=new Intent();
                     intent.putExtra("newdata", objkaryawan);
                     setResult(200, intent);
-                    finish();
+
                 }else{
+                    String fullname=textinput_fullname.getEditText().getText().toString().trim();
+                    String age=textinput_age.getEditText().getText().toString().trim();
+                    String address=textinput_address.getEditText().getText().toString().trim();
 
-                    objkaryawan.setFull_name(fullname);
-                    objkaryawan.setAge(age);
-                    objkaryawan.setAddres(address);
+                   objkaryawannew = new karyawan(fullname, age, address);
 
+
+                    objposition=getIntent().getStringExtra("positionobj");
+                    intent=new Intent(getApplicationContext(), RecyclerView_Activity.class);
+                    intent.putExtra("dataEdit", objkaryawannew);
+                    intent.putExtra("positionobj", objposition);
+                    //Toast.makeText(getApplicationContext(), objkaryawannew.getFull_name()+"dan"+objkaryawannew.getAge()+"dan"+objkaryawannew.getAddres(), Toast.LENGTH_SHORT).show();
+
+                    startActivity(intent);
 
                 }
+
+                finish();
             }
         });
 
@@ -117,11 +159,11 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String fullnameobj = textinput_fullname.getEditText().getText().toString().trim();
 
-                if(fullnameobj.length()<0){
-                    textinput_fullname.setError("Silakan Diisi!");
+                if(fullnameobj.isEmpty()){
+                  //  textinput_fullname.getEditText().setError("Silakan Diisi!");
                     clickbutton=false;
                 }else{
-                    textinput_fullname.setError("");
+                    //textinput_fullname.getEditText().setError("");
                     clickbutton=true;
                 }
                 cekenablebutton();
@@ -144,11 +186,11 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String ageobj = textinput_age.getEditText().getText().toString().trim();
 
-                if(ageobj.length()<0){
-                    textinput_age.setError("Silakan Diisi!");
+                if(ageobj.isEmpty()){
+                   // textinput_age.getEditText().setError("Silakan Diisi!");
                     clickbutton=false;
                 }else{
-                    textinput_age.setError("");
+                    //textinput_age.getEditText().setError("");
                     clickbutton=true;
                 }
                 cekenablebutton();
@@ -170,11 +212,11 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String addressobj = textinput_address.getEditText().getText().toString().trim();
 
-                if(addressobj.length()<0){
-                    textinput_address.setError("Silakan Diisi!");
+                if(addressobj.isEmpty()){
+                 //   textinput_address.getEditText().setError("Silakan Diisi!");
                     clickbutton=false;
                 }else{
-                    textinput_address.setError("");
+                   // textinput_address.getEditText().setError("");
                     clickbutton=true;
                 }
                 cekenablebutton();
@@ -195,5 +237,6 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
         textinput_age=findViewById(R.id.textinput_age);
         textinput_address=findViewById(R.id.textinput_address);
         buttonsave=findViewById(R.id.buttonsave);
+        inputData_title=findViewById(R.id.inputData_title);
     }
 }
