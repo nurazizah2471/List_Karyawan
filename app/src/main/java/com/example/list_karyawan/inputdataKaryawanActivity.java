@@ -130,8 +130,6 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
                     intent.putExtra("positionobj", objposition);
                     startActivity(intent);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                  // startActivity(intent);
                 }
                 finish();
             }

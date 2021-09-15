@@ -36,22 +36,14 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
         inisialisasi();
         setRycycleView();
 
-       textitemnodata.setText(String.valueOf(datakaryawan.size()));
+       if(getIntent().hasExtra("dataEdit")) {
 
-       // if(getIntent().hasExtra("dataEdit")) {
+           datakaryawan = getIntent().getParcelableArrayListExtra("dataEdit");
 
-           // datakaryawan = getIntent().getParcelableArrayListExtra("dataEdit");
-
-           // textitemnodata.setText(String.valueOf(datakaryawan.size()));
-
-            //   indexposition=getIntent().getIntExtra("positionobj",0);
-                //datakaryawan=datakaryawannew;
-            //textitemnodata.setText(String.valueOf(datakaryawan.size()));
-               //datakaryawan.set(indexposition, datakaryawannew);
-             //karyawanadapter.notifyDataSetChanged();///////////
-
-       // }
-
+           karyawanadapter.notifyDataSetChanged();///////////
+        }else{
+           textitemnodata.setText("No Data");
+       }
         setListener();
     }
 
