@@ -41,12 +41,7 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
 
         if(getIntent().hasExtra("dataEdit")) {
 
-                objkaryawan = getIntent().getParcelableExtra("dataEdit");
-                indexposition = Integer.parseInt(getIntent().getStringExtra("positionobj"));
-
-                datakaryawan.get(indexposition).setFull_name(objkaryawan.getFull_name());
-                datakaryawan.get(indexposition).setAge(objkaryawan.getAge());
-                datakaryawan.get(indexposition).setAddres(objkaryawan.getAddres());
+                datakaryawan = getIntent().getParcelableExtra("dataEdit");
 
                 karyawanadapter.notifyDataSetChanged();
 
@@ -109,10 +104,11 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
     public void onButtonDetailClick(int position) {
         Intent intent=new Intent(getApplicationContext(), detailActivity.class);
 
-        intent.putExtra("karyawanobj", datakaryawan.get(position));
+        intent.putExtra("karyawanarray", datakaryawan);
 
-        intent.putExtra("objposition", String.valueOf(position));
+        intent.putExtra("objposition",position);
 
+       // Toast.makeText(getApplicationContext(),String.valueOf(position), Toast.LENGTH_SHORT).show();
 
        startActivity(intent);
 

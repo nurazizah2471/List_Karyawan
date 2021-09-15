@@ -19,6 +19,8 @@ import android.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+
 import model.karyawan;
 
 public class inputdataKaryawanActivity extends AppCompatActivity {
@@ -31,7 +33,8 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
     private ImageView imageback;
     private ProgressDialog progressdialog;
     private Intent intent;
-    private String objposition;
+    private int objposition;
+    private ArrayList<karyawan> arraykaryawan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +44,11 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
         inisialisasi();
         setListener();
 
-        if(getIntent().hasExtra("karyawanobj")){
-            objkaryawan=getIntent().getParcelableExtra("karyawanobj");
+        if(getIntent().hasExtra("karyawanarray")){
 
+            arraykaryawan=getIntent().getParcelableArrayListExtra("karyawanarray");
+            objposition=getIntent().getIntExtra("objposition",0);
+            objkaryawan=arraykaryawan.get(objposition);
 
             textinput_fullname.getEditText().setText(objkaryawan.getFull_name());
             textinput_age.getEditText().setText(objkaryawan.getAge());
@@ -51,6 +56,8 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
 
             buttonsave.setText("Update Data");
             inputData_title.setText("Edit User");
+
+
         } else{
             inputData_title.setText("Add User");
         }
@@ -87,7 +94,12 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
             //}
         //});
 
-
+        imageback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         buttonsave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +127,7 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
 
 
 
-                if(!getIntent().hasExtra("karyawanobj")) {
+                if(!getIntent().hasExtra("karyawanarray")) {
                     String fullname=textinput_fullname.getEditText().getText().toString().trim();
                     String age=textinput_age.getEditText().getText().toString().trim();
                     String address=textinput_address.getEditText().getText().toString().trim();
@@ -131,17 +143,19 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
                     String age=textinput_age.getEditText().getText().toString().trim();
                     String address=textinput_address.getEditText().getText().toString().trim();
 
-                   objkaryawannew = new karyawan(fullname, age, address);
 
-
-                    objposition=getIntent().getStringExtra("positionobj");
                     intent=new Intent(getApplicationContext(), RecyclerView_Activity.class);
-                    intent.putExtra("dataEdit", objkaryawannew);
-                    intent.putExtra("positionobj", objposition);
+                    objkaryawan.setFull_name(fullname);
+                    objkaryawan.setAge(age);
+                    objkaryawan.setAddres(address);
+
+                    intent.putExtra("dataEdit", arraykaryawan);
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                     //Toast.makeText(getApplicationContext(), objkaryawannew.getFull_name()+"dan"+objkaryawannew.getAge()+"dan"+objkaryawannew.getAddres(), Toast.LENGTH_SHORT).show();
 
                     startActivity(intent);
-
                 }
 
                 finish();
