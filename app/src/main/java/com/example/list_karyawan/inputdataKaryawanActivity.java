@@ -129,10 +129,8 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
                     intent.putExtra("dataEdit", arraykaryawan);
                     intent.putExtra("positionobj", objposition);
                     startActivity(intent);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                    //Toast.makeText(getApplicationContext(), objkaryawannew.getFull_name()+"dan"+objkaryawannew.getAge()+"dan"+objkaryawannew.getAddres(), Toast.LENGTH_SHORT).show();
-                   // setResult(400,intent);
                   // startActivity(intent);
                 }
                 finish();
