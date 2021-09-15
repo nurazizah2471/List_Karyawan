@@ -37,13 +37,13 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
         inisialisasi();
         setRycycleView();
 
-        textitemnodata.setText("No Data");
+       // textitemnodata.setText("No Data");
 
         if(getIntent().hasExtra("dataEdit")) {
 
                 datakaryawan = getIntent().getParcelableArrayListExtra("dataEdit");
 
-                karyawanadapter.notifyDataSetChanged();
+                karyawanadapter.notifyDataSetChanged();///////////
 
         }
 
@@ -59,7 +59,7 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
                 datakaryawan.add(objkaryawan);
 
             } else if (resultCode == 500) {
-               int indexposition = Integer.parseInt(data.getStringExtra("positionobj"));
+               int indexposition = data.getIntExtra("positionobj",0);
 
                 datakaryawan.remove(indexposition);
                 Toast.makeText(getApplicationContext(), "Delete success!", Toast.LENGTH_SHORT).show();
