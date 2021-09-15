@@ -129,7 +129,7 @@ public class inputdataKaryawanActivity extends AppCompatActivity {
                     intent.putExtra("dataEdit", arraykaryawan);
                     intent.putExtra("positionobj", objposition);
                     startActivity(intent);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 }
                 finish();
             }
