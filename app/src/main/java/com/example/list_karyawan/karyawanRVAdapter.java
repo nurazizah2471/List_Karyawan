@@ -15,8 +15,8 @@ import model.karyawan;
 public class karyawanRVAdapter extends RecyclerView.Adapter<karyawanRVAdapter.karyawanHolder> {
 
     private ArrayList<karyawan> arraylistkaryawan;
-
     private onCardListener listener;
+
     public karyawanRVAdapter(ArrayList<karyawan> Listkaryawan, onCardListener listener){
         this.arraylistkaryawan=Listkaryawan;
         this.listener=listener;
@@ -35,8 +35,6 @@ public class karyawanRVAdapter extends RecyclerView.Adapter<karyawanRVAdapter.ka
         holder.cardView_full_name.setText(String.valueOf(arraylistkaryawan.get(position).getFull_name()));
         holder.cardView_age.setText(String.valueOf(arraylistkaryawan.get(position).getAge())+" years old" );
         holder.cardView_address.setText(String.valueOf(arraylistkaryawan.get(position).getAddres()));
-
-
     }
 
     @Override
@@ -55,18 +53,11 @@ public class karyawanRVAdapter extends RecyclerView.Adapter<karyawanRVAdapter.ka
             cardView_age=itemView.findViewById((R.id.cardView_age));
             cardView_address=itemView.findViewById((R.id.cardView_address));
             itemView.setOnClickListener(this);
-
-
-
-
         }
 
         @Override
         public void onClick(View v) {
             listener.onButtonDetailClick(getAdapterPosition());
         }
-
     }
-
-
 }

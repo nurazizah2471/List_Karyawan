@@ -28,7 +28,6 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
     private boolean cekclick = true;
     public int indexposition;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +36,21 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
         inisialisasi();
         setRycycleView();
 
-       // textitemnodata.setText("No Data");
+       textitemnodata.setText(String.valueOf(datakaryawan.size()));
 
-        if(getIntent().hasExtra("dataEdit")) {
+       // if(getIntent().hasExtra("dataEdit")) {
 
-                datakaryawan = getIntent().getParcelableArrayListExtra("dataEdit");
+           // datakaryawan = getIntent().getParcelableArrayListExtra("dataEdit");
 
-                karyawanadapter.notifyDataSetChanged();///////////
+           // textitemnodata.setText(String.valueOf(datakaryawan.size()));
 
-        }
+            //   indexposition=getIntent().getIntExtra("positionobj",0);
+                //datakaryawan=datakaryawannew;
+            //textitemnodata.setText(String.valueOf(datakaryawan.size()));
+               //datakaryawan.set(indexposition, datakaryawannew);
+             //karyawanadapter.notifyDataSetChanged();///////////
+
+       // }
 
         setListener();
     }
@@ -57,10 +62,8 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
             if (resultCode == 200) {
                 objkaryawan = data.getParcelableExtra("newdata");
                 datakaryawan.add(objkaryawan);
-
             } else if (resultCode == 500) {
                int indexposition = data.getIntExtra("positionobj",0);
-
                 datakaryawan.remove(indexposition);
                 Toast.makeText(getApplicationContext(), "Delete success!", Toast.LENGTH_SHORT).show();
             }
@@ -95,7 +98,6 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
         buttonaddfloating =findViewById(R.id.buttonaddfloating);
         textitemnodata=findViewById(R.id.textitemnodata);
         itemmodel_rycyclerView=findViewById(R.id.itemmodel_rycyclerView);
-
         datakaryawan=new ArrayList<karyawan>();
         karyawanadapter=new karyawanRVAdapter(datakaryawan, this);
     }
@@ -103,15 +105,8 @@ public class RecyclerView_Activity extends AppCompatActivity implements onCardLi
     @Override
     public void onButtonDetailClick(int position) {
         Intent intent=new Intent(getApplicationContext(), detailActivity.class);
-
         intent.putExtra("karyawanarray", datakaryawan);
-
         intent.putExtra("objposition",position);
-
-       // Toast.makeText(getApplicationContext(),String.valueOf(position), Toast.LENGTH_SHORT).show();
-
-       startActivity(intent);
-
+        startActivityForResult(intent, 1);
     }
-
 }
