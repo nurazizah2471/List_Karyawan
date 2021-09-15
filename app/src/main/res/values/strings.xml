@@ -3,4 +3,8 @@
     <string name="full_name_cardRecyclerView">Nama</string>
     <string name="age_cardRecyclerView">Years Old</string>
     <string name="address_cardRecyclerView">Semarang</string>
+    <string name="buttonsave">Save Data</string>
+    <string name="ketfullname">Ful Name</string>
+    <string name="ketage">Age</string>
+    <string name="ketaddress">Address</string>
 </resources>
